@@ -1,0 +1,15 @@
+c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.AssemblyInfoInputs.cache
+c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.AssemblyInfo.cs
+c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.csproj.CoreCompileInputs.cache
+c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.sourcelink.json
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\bin\Debug\net8.0-windows\AppAquecimento.exe
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\bin\Debug\net8.0-windows\AppAquecimento.deps.json
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\bin\Debug\net8.0-windows\AppAquecimento.runtimeconfig.json
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\bin\Debug\net8.0-windows\AppAquecimento.dll
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\bin\Debug\net8.0-windows\AppAquecimento.pdb
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.dll
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\refint\AppAquecimento.dll
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.pdb
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\AppAquecimento.genruntimeconfig.cache
+C:\Users\Alunos\Documents\LÍGIA (MANHÃ)\AcompanhamentoRC4\AppAquecimento\obj\Debug\net8.0-windows\ref\AppAquecimento.dll
