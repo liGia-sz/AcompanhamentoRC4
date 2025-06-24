@@ -1,13 +1,13 @@
+from kivy.core.window import Window
+Window.size = (800, 600)  # Ajuste para o tamanho que preferir
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.core.window import Window
 from datetime import datetime, time
-
-Window.size = (600, 500)  # Janela maior
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -48,7 +48,7 @@ class MainWidget(BoxLayout):
         form.add_widget(self.entrada_data)
 
         # Duração
-        form.add_widget(Label(text="Duração do Aquecimento:", **label_args))
+        form.add_widget(Label(text="Dur. do Aquecimento:", **label_args))
         self.entrada_duracao = TextInput(hint_text="HH:MM", **input_args)
         form.add_widget(self.entrada_duracao)
 
@@ -85,7 +85,7 @@ class MainWidget(BoxLayout):
                 f"Receita: {receitas}\n"
                 f"Turno: {turno}\n"
                 f"Data: {data_str}\n"
-                f"Duração do Aquecimento: {duracao_aquecimento_str}\n"
+                f"Dur. Aquecimento: {duracao_aquecimento_str}\n"
             )
 
             hora_padrao, tempo_padrao = self.obter_tempo_padrao(lista_receitas)
