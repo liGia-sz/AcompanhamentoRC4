@@ -25,7 +25,7 @@ st.title("Acompanhamento de Aquecimento RC4")
 receitas = st.text_input("Receita (ex: 13,3,4)")
 turno = st.text_input("Turno (Manhã, Tarde, Noite)")
 data_str = st.text_input("Data (DD/MM/AAAA)")
-duracao_aquecimento_str = st.text_input("Dur. do Aquecimento (HH:MM)")
+duracao_aquecimento_str = st.text_input("Duração do Aquecimento (HH:MM)")
 
 if st.button("Calcular"):
     try:
@@ -38,7 +38,7 @@ if st.button("Calcular"):
             f"Receita: {receitas}\n"
             f"Turno: {turno_upper}\n"
             f"Data: {data_str}\n"
-            f"Dur. Aquecimento: {duracao_aquecimento_str}\n"
+            f"Duração Aquecimento: {duracao_aquecimento_str}\n"
         )
 
         hora_padrao, tempo_padrao = obter_tempo_padrao(lista_receitas)
