@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=800">
+    <title>Acompanhamento de Aquecimento RC4</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #aa98b3; margin: 0; padding: 0; }
+        .container { max-width: 500px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 32px; }
+        h1 { text-align: center; font-size: 1.7em; margin-bottom: 24px; }
+        label { display: block; margin-top: 16px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; margin-top: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 1em; }
+        button { margin-top: 24px; width: 100%; padding: 12px; font-size: 1.1em; background: #1976d2; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #125ea2; }
+        textarea { resize: vertical; min-height: 120px; }
+        .error { color: #b71c1c; margin-top: 12px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Acompanhamento de Aquecimento RC4</h1>
+    <label for="receitas">Receita</label>
+    <select id="receitas" style="width:100%;padding:8px;border-radius:4px;border:1px solid #ccc;font-size:1em;">
+        <option value="" selected disabled>Selecione uma receita</option>
+        <option value="13">13</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="16">16</option>
+        <option value="22">22</option>
+        <option value="12">12</option>
+        <option value="21">21</option>
+    </select>
+
+    <label>Turno</label>
+    <div style="margin-bottom:8px; display: flex; gap: 18px; align-items: center;">
+        <input type="radio" id="manha" name="turno" value="Manhã">
+        <label for="manha" style="margin:0 8px 0 2px;">Manhã</label>
+        <input type="radio" id="tarde" name="turno" value="Tarde">
+        <label for="tarde" style="margin:0 8px 0 2px;">Tarde</label>
+        <input type="radio" id="noite" name="turno" value="Noite">
+        <label for="noite" style="margin:0 8px 0 2px;">Noite</label>
+    </div>
+
+    <label for="data">Data (DD/MM/AAAA)</label>
+    <input type="text" id="data" placeholder="DD/MM/AAAA">
+
+    <label for="duracao">Dur. do Aquecimento (HH:MM)</label>
+    <input type="text" id="duracao" placeholder="HH:MM">
+
+    <button onclick="calcular()">Calcular</button>
+    <textarea id="resultado" readonly placeholder="Resumo + Resultado"></textarea>
+    <div class="error" id="erro"></div>
+    <div id="ultimo-calculo" style="margin-top:20px;"></div>
+</div>
+<script>
+function obterTempoPadrao(listaReceitas) {
+    if (listaReceitas.every(r => [13, 3, 4, 16, 22].includes(r))) {
+        return [{hour: 13, minute: 0}, "13:00"];
+    } else if (listaReceitas.every(r => [12, 21].includes(r))) {
+        return [{hour: 9, minute: 0}, "09:00"];
+    } else {
+        throw new Error("Combinação de receitas não reconhecida.");
+    }
+}
+
+function calcularDiferenca(duracao, padrao) {
+    return (duracao.hour - padrao.hour) * 60 + (duracao.minute - padrao.minute);
+}
+
+function formatarResultado(tempoPadrao, diferenca) {
+    if (diferenca === 0) {
+        return `Tempo padrão: ${tempoPadrao}\nAquecimento IGUAL ao tempo padrão.`;
+    } else if (diferenca > 0) {
+        return `Tempo padrão: ${tempoPadrao}\nAquecimento ULTRAPASSOU em: ${Math.floor(diferenca/60)} horas e ${diferenca%60} minutos.`;
+    } else {
+        return `Tempo padrão: ${tempoPadrao}\nAquecimento FALTOU em: ${Math.floor(Math.abs(diferenca)/60)} horas e ${Math.abs(diferenca)%60} minutos.`;
+    }
+}
+
+function calcular() {
+    document.getElementById('erro').textContent = '';
+    // Receita única
+    let receitasSel = document.getElementById('receitas');
+    let receita = receitasSel.value;
+    let turno = document.querySelector('input[name="turno"]:checked');
+    let turnoVal = turno ? turno.value : '';
+    let dataStr = document.getElementById('data').value;
+    let duracaoStr = document.getElementById('duracao').value;
+    let resultado = '';
+    try {
+        if (!receita) throw new Error('Selecione uma receita.');
+        let listaReceitas = [parseInt(receita)];
+        if (listaReceitas.some(isNaN)) throw new Error('Receita inválida.');
+        if (!turnoVal) throw new Error('Selecione o turno.');
+        let turnoUpper = turnoVal.toUpperCase();
+        let data = dataStr.match(/^\d{2}\/\d{2}\/\d{4}$/) ? dataStr : null;
+        if (!data) throw new Error('Data inválida. Use DD/MM/AAAA.');
+        let duracaoMatch = duracaoStr.match(/^(\d{1,2}):(\d{2})$/);
+        if (!duracaoMatch) throw new Error('Duração inválida. Use HH:MM.');
+        let duracao = {hour: parseInt(duracaoMatch[1]), minute: parseInt(duracaoMatch[2])};
+        let resumo = `Receita: ${receita}` + `\nTurno: ${turnoUpper}\nData: ${dataStr}\nDur. Aquecimento: ${duracaoStr}\n`;
+        let [horaPadrao, tempoPadrao] = obterTempoPadrao(listaReceitas);
+        let diferenca = calcularDiferenca(duracao, horaPadrao);
+        resultado = resumo + '\n' + formatarResultado(tempoPadrao, diferenca);
+        document.getElementById('resultado').value = resultado;
+        // Salvar último cálculo
+        localStorage.setItem('ultimoCalculoRC4', JSON.stringify({receita, turno: turnoVal, data: dataStr, duracao: duracaoStr, resultado}));
+        exibirUltimoCalculo();
+    } catch (e) {
+        document.getElementById('erro').textContent = e.message;
+        document.getElementById('resultado').value = '';
+    }
+}
+
+function exibirUltimoCalculo() {
+    let ult = localStorage.getItem('ultimoCalculoRC4');
+    const div = document.getElementById('ultimo-calculo');
+    if (ult) {
+        let c = JSON.parse(ult);
+        div.innerHTML = `<strong>Último cálculo preenchido:</strong><br><pre style='background:#f4f4f4;padding:10px;border-radius:4px;'>${c.resultado}</pre>`;
+    } else {
+        div.innerHTML = '';
+    }
+}
+
+window.onload = exibirUltimoCalculo;
+</script>
+</body>
+</html>
