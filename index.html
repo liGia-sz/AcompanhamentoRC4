@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=800">
     <title>Acompanhamento de Aquecimento RC4</title>
-    <link rel="icon" type="image/png" href="Logo Acompanhamento.png">
+    <link rel="icon" type="image/png" href="img/Logo Acompanhamento.png">
     <style>
-        body { font-family: Arial, sans-serif; background: #aa98b3; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #bcadc4; margin: 0; padding: 0; }
         .container { max-width: 500px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 32px; }
         h1 { text-align: center; font-size: 1.7em; margin-bottom: 24px; }
         label { display: block; margin-top: 16px; font-weight: bold; }
@@ -18,11 +18,10 @@
     </style>
 </head>
 <body>
-    <!-- Imagem centralizada abaixo do formulário -->
-<div style="display: flex; justify-content: center; margin-top: 32px;">
-    <img src="Logo Top.png" alt="Logo RC4" style="max-width: 300px; width: 200%; height: auto;">
+    <div style="display: flex; justify-content: center; margin-top: 32px;">
+    <img src="img/Logo Top.png" alt="Logo RC4" style="max-width: 300px; width: 200%; height: auto;">
 </div>
-<div class="container">
+    <div class="container">
     <h1>Acompanhamento de Aquecimento RC4</h1>
     <label for="receitas">Receita</label>
     <select id="receitas" style="width:100%;padding:8px;border-radius:4px;border:1px solid #ccc;font-size:1em;">
@@ -74,9 +73,9 @@ function calcularDiferenca(duracao, padrao) {
 
 function formatarResultado(tempoPadrao, diferenca) {
     if (diferenca === 0) {
-        return `Tempo padrão: ${tempoPadrao}\nAquecimento IGUAL ao tempo padrão.`;
+         return `Tempo padrão: ${tempoPadrao}\nAquecimento IGUAL ao tempo padrão.`;
     } else if (diferenca > 0) {
-        return `Tempo padrão: ${tempoPadrao}\nAquecimento ULTRAPASSOU em: ${Math.floor(diferenca/60)} horas e ${diferenca%60} minutos.`;
+         return `Tempo padrão: ${tempoPadrao}\nAquecimento ULTRAPASSOU em: ${Math.floor(diferenca/60)} horas e ${diferenca%60} minutos.`;
     } else {
         return `Tempo padrão: ${tempoPadrao}\nAquecimento FALTOU em: ${Math.floor(Math.abs(diferenca)/60)} horas e ${Math.abs(diferenca)%60} minutos.`;
     }
@@ -111,7 +110,7 @@ function calcular() {
         // Salvar último cálculo
         localStorage.setItem('ultimoCalculoRC4', JSON.stringify({receita, turno: turnoVal, data: dataStr, duracao: duracaoStr, resultado}));
         exibirUltimoCalculo();
-    } catch (e) {
+        } catch (e) {
         document.getElementById('erro').textContent = e.message;
         document.getElementById('resultado').value = '';
     }
@@ -121,14 +120,55 @@ function exibirUltimoCalculo() {
     let ult = localStorage.getItem('ultimoCalculoRC4');
     const div = document.getElementById('ultimo-calculo');
     if (ult) {
-        let c = JSON.parse(ult);
+    let c = JSON.parse(ult);
         div.innerHTML = `<strong>Último cálculo preenchido:</strong><br><pre style='background:#f4f4f4;padding:10px;border-radius:4px;'>${c.resultado}</pre>`;
     } else {
         div.innerHTML = '';
     }
 }
 
-window.onload = exibirUltimoCalculo;
+// Funções para formatar entrada
+function formatarData(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+    let formattedValue = '';
+
+    if (value.length > 0) {
+        formattedValue += value.substring(0, 2);
+    }
+    if (value.length > 2) {
+        formattedValue += '/' + value.substring(2, 4);
+    }
+    if (value.length > 4) {
+        formattedValue += '/' + value.substring(4, 8);
+    }
+    input.value = formattedValue;
+}
+
+function formatarDuracao(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+    let formattedValue = '';
+
+    if (value.length > 0) {
+        formattedValue += value.substring(0, 2);
+    }
+    if (value.length > 2) {
+        formattedValue += ':' + value.substring(2, 4);
+    }
+    input.value = formattedValue;
+}
+
+window.onload = function() {
+    exibirUltimoCalculo();
+
+    // Adiciona os event listeners para formatar automaticamente
+    document.getElementById('data').addEventListener('input', function() {
+        formatarData(this);
+    });
+
+    document.getElementById('duracao').addEventListener('input', function() {
+        formatarDuracao(this);
+    });
+};
 </script>
 </body>
 </html>
